@@ -1,37 +1,4 @@
-import sqlite3
 import datetime
-
-
-class DbManager:
-    def __init__(self, db_name):
-        conn = sqlite3.connect(db_name)
-        conn.row_factory = sqlite3.Row
-        cur = conn.cursor()
-        self.conn = conn
-        self.cur = cur
-
-    def close_db(self) -> None:
-        self.cur.close()
-
-    def insert_ticker(self, ticker: str) -> None:
-        self.cur.execute('INSERT INTO Watchlist(ticker) VALUES(?)', (ticker,))
-        # maybe make it return primary key
-
-    def update_contract_id(self, ticker: str, contract_id: int) -> None:
-        self.cur.execute('UPDATE Watchlist SET contract_id = ? WHERE ticker = ?', (contract_id, ticker))
-        self.conn.commit()
-
-    def select_no_contract_id(self) -> list:
-        self.cur.execute('SELECT * FROM Watchlist WHERE (contract_id = 0)')
-        return self.cur.fetchall()
-
-    def select_contracts(self) -> list:
-        self.cur.execute('SELECT * FROM Watchlist WHERE (contract_id != 0)')
-        return self.cur.fetchall()
-
-    def update_ath(self, ath: float, contract_id: int) -> None:
-        self.cur.execute('UPDATE Watchlist SET all_time_high = ? WHERE contract_id = ?', (ath, contract_id))
-        self.conn.commit()
 
 
 def one_year_ago() -> datetime:
@@ -40,3 +7,18 @@ def one_year_ago() -> datetime:
 
 def formatted_date(date: datetime):
     return date.strftime("%Y%m%d-%H:%M:%S")
+
+
+def percentage_calculator(ath: float, cur: float) -> float:
+    return round(((cur - ath) / ath) * 100, 2)
+
+
+def calculate_op_priority(op: float) -> int:
+    i = 1
+    if op < 5:
+        return 0
+    else:
+        for x in range(2, 10):
+            if op > (5 * x) - 1 <= 40:
+                i += 1
+    return i
