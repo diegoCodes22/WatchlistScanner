@@ -32,3 +32,7 @@ class DbManager:
     def update_ath(self, ath: float, contract_id: int) -> None:
         self.cur.execute('UPDATE Watchlist SET all_time_high = ? WHERE contract_id = ?', (ath, contract_id))
         self.conn.commit()
+
+    def update_priority(self, priority: int, contract_id: int) -> None:
+        self.cur.execute('Update Watchlist SET buy = ? WHERE contract_id = ?', (priority, contract_id))
+        self.conn.commit()
