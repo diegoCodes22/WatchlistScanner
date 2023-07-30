@@ -1,11 +1,11 @@
 from Database import DbManager
-from Opportunities import Ath, create_opportunity
+from Opportunities import scan_opportunities
 from Contractor import req_ids
 
 import time
 
 DB_NAME = "watchlist.db"
-# Function to specify type (G, D)
+# Add the times bought for that stock
 
 
 def main():
@@ -23,7 +23,13 @@ def main():
         elif i == 1:
             req_ids(db)
         elif i == 2:
-            create_opportunity(db)
+            scan_opportunities(db)  # I need to add a column for opportunities taken,
+            # if not, even if I buy, it will still show an opportunity
+        elif i == 3:
+            db.present_watchlist()
+        elif i == 4:
+            pass
+            # Create and place order for specified symbol (One at a time)
 
 
 if __name__ == "__main__":

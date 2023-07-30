@@ -59,7 +59,7 @@ class CurrentPrice(EClient, EWrapper):
         self.contract_id = contract_id
 
 
-def create_opportunity(db: DbManager):
+def scan_opportunities(db: DbManager):
     ath_app = Ath()
     cur_app = CurrentPrice()
     for c in db.select_contracts():
@@ -72,11 +72,10 @@ def create_opportunity(db: DbManager):
             cur_app.connect("127.0.0.1", 7497, 1001)
             cur_app.req_current(c["contract_id"])
             cur_app.run()
-            print(cur_app.current_price)
             op = percentage_calculator(c['all_time_high'], cur_app.current_price)
+            db.update_last(cur_app.current_price, c['contract_id'])
             if op < 0:
                 priority = calculate_op_priority(-op)
-                print(priority)
                 if priority > 5:
                     print(f"SEVERE DROP IN {c['ticker']}. CHECK IMMEDIATELY!\nContinuing...")
                     time.sleep(3)
