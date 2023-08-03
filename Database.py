@@ -42,6 +42,7 @@ class DbManager:
         self.conn.commit()
 
     def present_watchlist(self):
-        self.cur.execute('SELECT ticker, buy, all_time_high, last_price FROM Watchlist')
+        self.cur.execute('SELECT ticker, buy, all_time_high, last_price, opportunities_taken FROM Watchlist')
         for i in self.cur.fetchall():
-            print(f"{i['ticker']} [ {i['buy']} ] {i['all_time_high']} {i['last_price']}", end="\n\n")
+            print(f"{i['ticker']} [ {i['buy']} ] op taken ( {i['opportunities_taken']} ) "
+                  f"-ath {i['all_time_high']} -last {i['last_price']}", end="\n\n")

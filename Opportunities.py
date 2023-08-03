@@ -1,5 +1,5 @@
 from ibapi.client import EClient, Contract
-from ibapi.ticktype import TickType, TickTypeEnum
+from ibapi.ticktype import TickType
 from ibapi.wrapper import EWrapper
 from ibapi.common import BarData, TickerId, TickAttrib
 
@@ -62,6 +62,9 @@ class CurrentPrice(EClient, EWrapper):
 def scan_opportunities(db: DbManager):
     ath_app = Ath()
     cur_app = CurrentPrice()
+    if mkt_open() is False:
+        print("Market is not open, please use the scanner on market hours.")
+        return
     for c in db.select_contracts():
         if c["all_time_high"] == 0:
             ath_app.connect("127.0.0.1", 7497, 1000)
