@@ -39,7 +39,6 @@ class PlaceOrder(EClient, EWrapper):
         if remaining == 0:
             self.disconnect()
 
-
     def place_order(self, contract_id: int, mult: int):
         self.contract_id = contract_id
         self.multiplier = mult
