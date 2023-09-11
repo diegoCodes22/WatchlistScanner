@@ -34,7 +34,7 @@ class DbManager:
         self.conn.commit()
 
     def update_priority(self, priority: int, contract_id: int) -> None:
-        self.cur.execute('Update Watchlist SET buy = ? WHERE contract_id = ?', (priority, contract_id))
+        self.cur.execute('UPDATE Watchlist SET buy = ? WHERE contract_id = ?', (priority, contract_id))
         self.conn.commit()
 
     def update_last(self, current: float, contract_id: int) -> None:
@@ -44,5 +44,13 @@ class DbManager:
     def present_watchlist(self):
         self.cur.execute('SELECT ticker, buy, all_time_high, last_price, opportunities_taken FROM Watchlist')
         for i in self.cur.fetchall():
-            print(f"{i['ticker']} [ {i['buy']} ] op taken ( {i['opportunities_taken']} ) "
+            print(f"{i['ticker']} [ {i['buy']} ]  ( {i['opportunities_taken']} ) "
                   f"-ath {i['all_time_high']} -last {i['last_price']}", end="\n\n")
+
+    def get_opps(self):
+        self.cur.execute('SELECT contract_id, buy, opportunities_taken FROM Watchlist')
+        return self.cur.fetchall()
+
+    def update_opt(self, contract_id: int):
+        self.cur.execute('UPDATE Watchlist SET opportunities_taken = buy WHERE contract_id = ?', (contract_id, ))
+        self.conn.commit()
