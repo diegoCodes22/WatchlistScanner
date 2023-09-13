@@ -18,7 +18,7 @@ class Ath(EClient, EWrapper):
     def historicalData(self, reqId: int, bar: BarData) -> None:
         self.ath.append(bar.close)
 
-    def historicalDataEnd(self, reqId: int, start: str, end: str):
+    def historicalDataEnd(self, reqId: int, start: str, end: str) -> None:
         self.disconnect()
 
     def nextValidId(self, orderId: int) -> None:
@@ -50,16 +50,16 @@ class CurrentPrice(EClient, EWrapper):
         self.reqMarketDataType(2)
         self.reqMktData(orderId, new_contract, "", False, False, [])
 
-    def tickPrice(self, reqId: TickerId, tickType: TickType, price: float, attrib: TickAttrib):
+    def tickPrice(self, reqId: TickerId, tickType: TickType, price: float, attrib: TickAttrib) -> None:
         if tickType == 9:
             self.current_price = price
             self.disconnect()
 
-    def req_current(self, contract_id: int):
+    def req_current(self, contract_id: int) -> None:
         self.contract_id = contract_id
 
 
-def scan_opportunities(db: DbManager):
+def scan_opportunities(db: DbManager) -> None:
     ath_app = Ath()
     cur_app = CurrentPrice()
     if mkt_open() is False:

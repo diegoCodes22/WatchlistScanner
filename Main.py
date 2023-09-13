@@ -30,8 +30,6 @@ def main():
             db.present_watchlist()
         elif i == 4:
             executor(db)
-            # Print list of tickers with opportunities (not taken) and provide a space separated list of the stocks I
-            # want to buy, the best would be to make it automatic, but for that I would need monthly cash flow
 
 
 if __name__ == "__main__":

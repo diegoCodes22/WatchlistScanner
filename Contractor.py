@@ -45,9 +45,9 @@ class Contractor(EClient, EWrapper):
 def req_ids(db: DbManager) -> None:
     app = Contractor()
     while True:
-        symbols = input("Enter symbols or -1 for help: ")
+        symbols = (input("Enter symbols or -1 for help: ")).upper()
         if symbols == "-1":
-            print("Enter space separated, all caps tickers for the stocks you wish to add")
+            print("Enter space separated tickers for the stocks you wish to add")
         else:
             symbols = list(symbols.split(" "))
             for symbol in symbols:
