@@ -85,5 +85,6 @@ def scan_opportunities(db: DbManager) -> None:
                 db.update_priority(priority, c['contract_id'])
             else:
                 db.update_ath(cur_app.current_price, c['contract_id'])
+    db.present_watchlist()
 
 

@@ -17,7 +17,7 @@ def main():
 
     while True:
         time.sleep(1)
-        i = int(input('''\t0 Exit program\n\t1 Create contract ids\n\t2 Scan for opportunities\n\t3 Present watchlist\n\t4 Place orders\n'''))
+        i = int(input('''\t0 Exit program\n\t1 Add to watchlist\n\t2 Scan watchlist\n\t3 Execute orders\n\t'''))
 
         if i == 0:
             db.close_db()
@@ -27,8 +27,6 @@ def main():
         elif i == 2:
             scan_opportunities(db)
         elif i == 3:
-            db.present_watchlist()
-        elif i == 4:
             executor(db)
 
 
